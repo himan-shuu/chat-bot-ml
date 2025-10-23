@@ -22,10 +22,9 @@ st.write("Type your message below:")
 if "history" not in st.session_state:
     st.session_state.history = []
 
-user_input = st.text_input("You:", "")
-
-if st.button("Send") and user_input:
-    processed = preprocess_text(user_input)
+user_input = st.text_input("You:", "", key="input")
+if st.button("Send") and st.session_state.input:
+    processed = preprocess_text(st.session_state.input)
     vec = vectorizer.transform([processed])
     intent = logistic.predict(vec)[0]
     response = get_response(intent)
