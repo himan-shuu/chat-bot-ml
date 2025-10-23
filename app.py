@@ -4,7 +4,7 @@ import re
 from intents_responses import get_response
 
 # Load model & vectorizer
-clf = pickle.load(open("model/logistic.pkl", "rb"))
+logistic = pickle.load(open("model/logistic.pkl", "rb"))
 vectorizer = pickle.load(open("model/vectorizer.pkl", "rb"))
 
 # Preprocess function
