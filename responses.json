@@ -1,0 +1,77 @@
+{
+    "greeting": [
+        "Hello! Welcome to our service. How can I assist you today?",
+        "Hi there! What can I do for you?",
+        "Hey! I'm ready to chat."
+    ],
+    "goodbye": [
+        "Goodbye! Have a great day.",
+        "See you later! Take care.",
+        "I'm always here if you need me. Bye for now!"
+    ],
+    "thanks": [
+        "You're very welcome! Is there anything else I can help with?",
+        "No problem at all!",
+        "Glad I could help! That's what I'm here for."
+    ],
+    "joke": [
+        "Why did the computer go to the doctor? Because it caught a virus!",
+        "What do you call a fake noodle? An Impasta."
+    ],
+    "name": [
+        "I’m your friendly ML-powered chatbot, here to help with your inquiries."
+    ],
+    "how_are_you": [
+        "I’m doing well, running smoothly! How about you?",
+        "All good here in the digital world! How can I improve your day?"
+    ],
+    "help": [
+        "I can answer questions about orders, accounts, technical issues, and even tell jokes!",
+        "I’m here to help you navigate our services."
+    ],
+    "cancellation": [
+        "I can certainly help you with your cancellation request. Could you please confirm the **item or service** you wish to cancel?",
+        "To cancel your subscription/order, please provide your **order number or account ID**.",
+        "Cancelling? I understand. Let's start the **cancellation process** now. What are you cancelling?"
+    ],
+    "password_reset": [
+        "Need to reset your password? I can guide you through the process. Please confirm your **username or registered email**.",
+        "No worries, password resets happen! I'll send a **password recovery link** immediately.",
+        "I'll guide you through the **password recovery** process. Have you checked your spam folder recently?"
+    ],
+    "account_help": [
+        "I can help with account issues! Are you having trouble with **login, profile settings, or verification**?",
+        "What specific **account assistance** do you require today?",
+        "Let's look into your account. Tell me more about the **problem** you're encountering."
+    ],
+    "return_request": [
+        "I'm sorry to hear you need to make a return. Please provide your **order ID** to check the return eligibility and policy.",
+        "To start a return, I'll need your **tracking or order number**. Please share that with me.",
+        "We'll process that return for you. Do you have the **original packaging**?"
+    ],
+    "business_hours": [
+        "Our current business hours are **Monday to Friday, 9:00 AM to 5:00 PM** local time.",
+        "We are generally open from **9 AM to 5 PM** on weekdays, excluding public holidays.",
+        "Our customer support team is available during **standard business hours**."
+    ],
+    "order_status": [
+        "I can check on your order. What is your **order number** or **tracking ID**?",
+        "Please share the **tracking number** or **order ID** so I can find the current status of your package.",
+        "Checking your package status now! I just need the **order details**."
+    ],
+    "payment_update": [
+        "I can help you update your payment information. I will securely link you to the **payment portal**.",
+        "You want to update your card details? I'll need to verify your **account** first.",
+        "Changing your payment method is easy. I'll provide a **secure link** to manage your billing details."
+    ],
+    "service_info": [
+        "We offer a wide range of services including **technical support, order tracking, returns, and account management**.",
+        "What kind of **service** are you interested in learning more about today?",
+        "You can find all our detailed service descriptions on our **main website's 'Services' page**."
+    ],
+    "technical_support": [
+        "I can connect you with **technical support**. Could you briefly describe the issue you are facing?",
+        "For technical issues, I recommend visiting our **FAQ and troubleshooting page** first.",
+        "Technical support is on standby! What seems to be the **problem** with the service or product?"
+    ]
+}
