@@ -3,39 +3,32 @@ import pickle
 import re
 import random
 import sys
+import os
 
-# --- Mock Objects for ML Components (Since .pkl files are not available) ---
-# Replace this section with your actual pickle loading if you run this locally:
-# logistic = pickle.load(open("model/logistic.pkl", "rb"))
-# vectorizer = pickle.load(open("model/vectorizer.pkl", "rb"))
+# -------------------------------
+# Load trained model & vectorizer
+# -------------------------------
 
-class MockModel:
-    """A mock model that always predicts a random intent from the new list."""
-    def predict(self, data):
-        all_intents = list(responses.keys())
-        # Prioritize new customer service intents for better demonstration
-        cs_intents = ['cancellation', 'password_reset', 'account_help', 'return_request', 'business_hours', 'order_status', 'payment_update', 'service_info', 'technical_support']
-        
-        # Use a mix of common and CS intents for the mock
-        if random.random() < 0.7: # 70% chance to pick a CS intent
-            return [random.choice(cs_intents)]
-        else: # 30% chance to pick a general intent
-            return [random.choice(all_intents)]
-
-class MockVectorizer:
-    """A mock vectorizer that does nothing but satisfies the API."""
-    def transform(self, data):
-        return data
+# Define the relative path based on the structure (e.g., inside 'model' directory)
+MODEL_PATH = "model/logistic.pkl"
+VECTORIZER_PATH = "model/vectorizer.pkl"
 
 try:
-    # Attempt to load the real models (will fail without the files)
-    logistic = pickle.load(open("model/logistic.pkl", "rb"))
-    vectorizer = pickle.load(open("model/vectorizer.pkl", "rb"))
+    # Attempt to load the real models from the expected paths
+    with open(MODEL_PATH, "rb") as f:
+        logistic = pickle.load(f)
+    
+    with open(VECTORIZER_PATH, "rb") as f:
+        vectorizer = pickle.load(f)
+    
+    # Indicate success if models loaded
+    st.success(f"✅ Successfully loaded ML model from {MODEL_PATH} and {VECTORIZER_PATH}.")
+    
 except FileNotFoundError:
-    # Fallback to mock objects if files are missing, allowing the app to run
-    st.warning("⚠️ Could not find 'logistic.pkl' or 'vectorizer.pkl'. Using mock objects for intent classification.")
-    logistic = MockModel()
-    vectorizer = MockVectorizer()
+    # If files are not found, display an error and halt the application
+    st.error(f"❌ Error: Model files not found at {MODEL_PATH} or {VECTORIZER_PATH}.")
+    st.warning("Please ensure your 'logistic.pkl' and 'vectorizer.pkl' are placed inside a 'model/' directory in your project structure.")
+    sys.exit()
 except (EOFError, pickle.UnpicklingError):
     # Handle corrupted or invalid pickle files
     st.error("❌ Error loading the pickled model or vectorizer. Check file integrity.")
@@ -123,6 +116,11 @@ st.set_page_config(page_title="ML Chatbot 🤖", page_icon="🤖", layout="cente
 
 st.markdown("""
     <style>
+        /* General page configuration for dark mode */
+        body {
+            color: #E0E0E0; /* Light grey text */
+            background-color: #1E1E1E; /* Dark background */
+        }
         .st-emotion-cache-1jm69d1 { padding-top: 2rem; }
         .stButton>button {
             border: 2px solid #4CAF50;
@@ -142,8 +140,10 @@ st.markdown("""
             background-color: #45a049;
             border-color: #45a049;
         }
+        /* User Message (You) - Dark mode style */
         .chat-message-you {
-            background-color: #e0f7fa;
+            background-color: #004D40; /* Dark Teal background */
+            color: #E0E0E0; /* Light text */
             padding: 10px;
             border-radius: 15px 15px 5px 15px;
             margin-bottom: 10px;
@@ -152,16 +152,19 @@ st.markdown("""
             max-width: 80%;
             border-left: 5px solid #00BCD4;
         }
+        /* Bot Message - Dark mode style */
         .chat-message-bot {
-            background-color: #fff3e0;
+            background-color: #311B92; /* Dark Violet background */
+            color: #E0E0E0; /* Light text */
             padding: 10px;
             border-radius: 15px 15px 15px 5px;
             margin-bottom: 10px;
             align-self: flex-start;
             width: fit-content;
             max-width: 80%;
-            border-right: 5px solid #FF9800;
+            border-right: 5px solid #7C4DFF;
         }
+        /* Chat Container - Dark mode style */
         .chat-container {
             display: flex;
             flex-direction: column;
@@ -169,9 +172,15 @@ st.markdown("""
             max-height: 400px;
             overflow-y: auto;
             padding: 10px;
-            border: 1px solid #ddd;
+            /* Using a subtle dark border */
+            border: 1px solid #444444; 
+            background-color: #2D2D2D; /* Dark grey container background */
             border-radius: 10px;
             margin-bottom: 20px;
+        }
+        /* Style for the predicted intent text within the user message */
+        .chat-message-you small {
+            color: #80DEEA !important; /* Lighter color for better visibility */
         }
     </style>
 """, unsafe_allow_html=True)
@@ -189,10 +198,8 @@ def handle_input():
     if user_input:
         processed = preprocess_text(user_input)
         
-        # NOTE: If vectorizer is a mock, the transform does nothing.
+        # Use the real vectorizer and model
         vec = vectorizer.transform([processed]) 
-        
-        # NOTE: If logistic is a mock, it predicts a random intent.
         intent = logistic.predict(vec)[0]
         response = get_response(intent)
 
@@ -215,10 +222,8 @@ with st.form(key='chat_form', clear_on_submit=True):
         st.session_state.input = user_input # Manually set state for processing
         processed = preprocess_text(user_input)
         
-        # NOTE: If vectorizer is a mock, the transform does nothing.
+        # Use the real vectorizer and model
         vec = vectorizer.transform([processed]) 
-        
-        # NOTE: If logistic is a mock, it predicts a random intent.
         intent = logistic.predict(vec)[0]
         response = get_response(intent)
 
@@ -235,7 +240,7 @@ st.markdown('<div class="chat-container">', unsafe_allow_html=True)
 for sender, msg, intent in st.session_state.history:
     if sender == "You":
         # Displaying the predicted intent for the user's message is helpful for debugging/demo
-        st.markdown(f'<div class="chat-message-you">**You:** {msg} <br><small style="color:#00BCD4;">*Intent: {intent}*</small></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="chat-message-you">**You:** {msg} <br><small style="color:#80DEEA;">*Intent: {intent}*</small></div>', unsafe_allow_html=True)
     else:
         st.markdown(f'<div class="chat-message-bot">**Bot:** {msg}</div>', unsafe_allow_html=True)
 
