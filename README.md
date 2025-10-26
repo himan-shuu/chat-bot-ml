@@ -45,7 +45,7 @@ ml_chatbot/
 ├── app.py                   # Streamlit chatbot app  
 ├── train_model.py           # Script to train and save the model  
 ├── model/
-│   ├── clf.pkl              # Trained ML model  
+│   ├── logistic.pkl              # Trained ML model  
 │   └── vectorizer.pkl       # TF-IDF vectorizer  
 ├── intents.csv              # Dataset (intents and user messages)  
 ├── intents_responses.py     # Intent → responses mapping  
@@ -87,7 +87,7 @@ python train_model.py
 
 This will generate two files in the `model/` folder:
 
-* `clf.pkl` → Trained Logistic Regression model
+* `logistic.pkl` → Trained Logistic Regression model
 * `vectorizer.pkl` → TF-IDF vectorizer
 
 ---
